@@ -12,6 +12,7 @@ const dbConfig = {
     database: 'by9wewrbsgh2joxudcpi', // Cambia esto al nombre de tu base de datos
   };
 
+  
 // Crear la conexión a la base de datos
 const connection = mysql.createConnection(dbConfig);
 
