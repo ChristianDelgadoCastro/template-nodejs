@@ -6,11 +6,11 @@ const mysql = require('mysql2');
 
 // Configurar la conexión a la base de datos MySQL en la nube
 const dbConfig = {
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_DATABASE,
-};
+    host: 'by9wewrbsgh2joxudcpi-mysql.services.clever-cloud.com',
+    user: 'uy44aub6lptawz2c',
+    password: '4t03eIWNHgChQqYtypHF',
+    database: 'by9wewrbsgh2joxudcpi', // Cambia esto al nombre de tu base de datos
+  };
 
 // Crear la conexión a la base de datos
 const connection = mysql.createConnection(dbConfig);
@@ -19,6 +19,7 @@ const connection = mysql.createConnection(dbConfig);
 connection.connect((err) => {
     if (err) {
         console.error('Error al conectar a la base de datos:', err);
+        console.log(variables.env.DB_HOST, variables.env.DB_USER, variables.env.DB_PASSWORD, variables.env.DB_DATABASE)
     } else {
         console.log('Conexión a la base de datos exitosa!');
     }
