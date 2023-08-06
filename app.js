@@ -78,6 +78,19 @@ app.get('/alumnos', (req, res) => {
     });
 });
 
+// Obtener todas las asignaturas
+app.get('/asignaturas', (req, res) => {
+    const query = 'SELECT * FROM asignaturas';
+    dbPool.query(query, (err, result) => {
+        if (err) {
+            console.error('Error al obtener las asignaturas:', err);
+            res.status(500).send('Error al obtener las asignaturas');
+        } else {
+            res.json(result);
+        }
+    });
+});
+
 
 app.use(express.static('public'))
 
