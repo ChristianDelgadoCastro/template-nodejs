@@ -11,6 +11,9 @@ const dbPool = mysql.createPool({
     password: '4t03eIWNHgChQqYtypHF',
     database: 'by9wewrbsgh2joxudcpi',
     connectionLimit: 10, // Número máximo de conexiones en la piscina
+    waitForConnections: true,
+    queueLimit: 0,
+    connectTimeout: 60000, // Aumenta el tiempo de espera a 60 segundos
 });
 
 app.use(express.json());
