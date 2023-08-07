@@ -5,12 +5,28 @@ require('dotenv').config();
 const mysql = require('mysql2');
 
 // Configurar la piscina de conexiones a la base de datos MySQL en la nube
-const dbPool = mysql.createPool({
+/*const dbPool = mysql.createPool({
     host: 'by9wewrbsgh2joxudcpi-mysql.services.clever-cloud.com',
     user: 'uy44aub6lptawz2c',
     password: '4t03eIWNHgChQqYtypHF',
     database: 'by9wewrbsgh2joxudcpi',
     connectionLimit: 10, // Número máximo de conexiones en la piscina
+});*/
+
+// Configuración de la conexión a la base de datos MySQL local
+const dbConnection = mysql.createConnection({
+    host: 'localhost',         // Cambiar por la dirección de tu servidor MySQL
+    user: 'root',              // Usuario de la base de datos
+    password: 'root',      // Contraseña del usuario
+    database: 'dboPrueba'     // Nombre de la base de datos
+});
+
+dbConnection.connect(err => {
+    if (err) {
+        console.error('Error al conectar a la base de datos:', err);
+    } else {
+        console.log('Conexión exitosa a la base de datos');
+    }
 });
 
 app.use(express.json());
@@ -21,7 +37,7 @@ app.post('/login', (req, res) => {
     const { email, password } = req.body;
 
     const query = `SELECT * FROM alumnos WHERE email = '${email}' AND password = '${password}'`;
-    dbPool.query(query, (err, result) => {
+    dbConnection.query(query, (err, result) => {
         if (err) {
             console.error('Error al verificar las credenciales:', err);
             res.status(500).send('Error al verificar las credenciales');
@@ -38,7 +54,7 @@ app.post('/login', (req, res) => {
 // Obtener todas las calificaciones
 app.get('/calificaciones', (req, res) => {
     const query = 'SELECT * FROM calificaciones';
-    dbPool.query(query, (err, result) => {
+    dbConnection.query(query, (err, result) => {
         if (err) {
             console.error('Error al obtener las calificaciones:', err);
             res.status(500).send('Error al obtener las calificaciones');
@@ -55,7 +71,7 @@ app.get('/calificaciones/:email', (req, res) => {
       SELECT * FROM calificaciones
       WHERE nControl IN (SELECT ncontrol FROM alumnos WHERE email = '${email}')
     `;
-    dbPool.query(query, (err, result) => {
+    dbConnection.query(query, (err, result) => {
         if (err) {
             console.error('Error al obtener las calificaciones:', err);
             res.status(500).send('Error al obtener las calificaciones');
@@ -68,7 +84,7 @@ app.get('/calificaciones/:email', (req, res) => {
 // Obtener todos los alumnos
 app.get('/alumnos', (req, res) => {
     const query = 'SELECT * FROM alumnos';
-    dbPool.query(query, (err, result) => {
+    dbConnection.query(query, (err, result) => {
         if (err) {
             console.error('Error al obtener los alumnos:', err);
             res.status(500).send('Error al obtener los alumnos');
@@ -81,7 +97,7 @@ app.get('/alumnos', (req, res) => {
 // Obtener todas las asignaturas
 app.get('/asignaturas', (req, res) => {
     const query = 'SELECT * FROM asignaturas';
-    dbPool.query(query, (err, result) => {
+    dbConnection.query(query, (err, result) => {
         if (err) {
             console.error('Error al obtener las asignaturas:', err);
             res.status(500).send('Error al obtener las asignaturas');
